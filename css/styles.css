@@ -5893,6 +5893,7 @@ p { color: var(--clr-muted); }
 img, video { max-width: 100% !important; height: auto !important; }
 svg { max-width: 100% !important; max-height: 100% !important; }
 
+
 /* ══ SPECIFIC ELEMENT OVERRIDES ══ */
 .nav__logo img                { max-width: 160px !important; height: 28px !important; width: auto !important; }
 .footer__brand img            { max-width: 140px !important; height: auto !important; }
