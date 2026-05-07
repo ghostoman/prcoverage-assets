@@ -1,0 +1,233 @@
+/* ═══════════════════════════════════════════════════════════════
+   HERO STORY — Layout & base styles only
+   ALL animation states handled by GSAP (Webflow-compatible)
+═══════════════════════════════════════════════════════════════ */
+
+/* ── Container ──────────────────────────────────────────────── */
+.hero-story {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #fff;
+  border-radius: inherit;
+}
+
+/* All phases also white — no flash during transitions */
+.hs-phase {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  visibility: hidden;
+  opacity: 0;
+  background: #fff;
+}
+
+/* ── PHASE 1: Intro headline ─────────────────────────────────── */
+.hs-phase--intro {
+  padding: 8% 10%;
+  text-align: center;
+}
+
+.hs-headline {
+  font-family: 'Figtree', 'Nunito Sans', sans-serif;
+  font-size: clamp(2rem, 5.5vw, 4.2rem);
+  font-weight: 900;
+  line-height: 1.12;
+  color: #0f172a;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.25em;
+}
+
+.hs-word {
+  display: inline-block;
+  /* GSAP animates opacity + y */
+}
+
+.hs-word--highlight {
+  background: linear-gradient(90deg, #b71baf 0%, #ff5463 50%, #ff87ba 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-style: italic;
+}
+
+/* ── PHASE 2: Collage ────────────────────────────────────────── */
+.hs-phase--collage {
+  flex-direction: column;
+  padding: 4% 4% 3%;
+  justify-content: flex-start;
+}
+
+.hs-collage__header {
+  text-align: center;
+  margin-bottom: clamp(10px, 2vw, 20px);
+  flex-shrink: 0;
+}
+
+.hs-collage__eyebrow {
+  font-family: 'Figtree', sans-serif;
+  font-size: clamp(0.6rem, 1.1vw, 0.8rem);
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #b71baf;
+  margin-bottom: 6px;
+  /* GSAP animates opacity + y */
+}
+
+.hs-collage__title {
+  font-family: 'Figtree', sans-serif;
+  font-weight: 900;
+  font-size: clamp(1.6rem, 4vw, 3rem);
+  line-height: 1;
+  display: flex;
+  gap: 0.2em;
+  justify-content: center;
+  align-items: baseline;
+  flex-wrap: wrap;
+}
+
+.hs-collage__word {
+  display: inline-block;
+  /* GSAP animates opacity + y */
+}
+
+.hs-collage__word--num  { color: #b71baf; }
+.hs-collage__word--hits { color: #ff5463; }
+.hs-collage__word--one,
+.hs-collage__word--week { color: #0f172a; }
+
+/* Grid: 3 top + 2 bottom centred */
+.hs-collage__grid {
+  display: grid;
+  grid-template-areas:
+    "s1 s1 s2 s2 s3 s3"
+    ".  s4 s4 s5 s5  .";
+  grid-template-columns: repeat(6, 1fr);
+  gap: clamp(6px, 1vw, 12px);
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+}
+
+.hs-collage__slot--1 { grid-area: s1; }
+.hs-collage__slot--2 { grid-area: s2; }
+.hs-collage__slot--3 { grid-area: s3; }
+.hs-collage__slot--4 { grid-area: s4; }
+.hs-collage__slot--5 { grid-area: s5; }
+
+.hs-collage__slot {
+  overflow: hidden;
+  border-radius: clamp(4px, 0.8vw, 10px);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+  background: #f5f5f7;
+  /* GSAP animates opacity + y */
+}
+
+.hs-collage__slot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top left;
+  display: block;
+}
+
+/* ── PHASE 3: Question overlay ───────────────────────────────── */
+.hs-phase--question {
+  background: #fff;
+}
+
+/* Faded background grid */
+.hs-collage__grid--faded {
+  position: absolute;
+  inset: 0;
+  padding: 4%;
+  display: grid;
+  grid-template-areas:
+    "s1 s1 s2 s2 s3 s3"
+    ".  s4 s4 s5 s5  .";
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: auto auto;
+  gap: clamp(6px, 1vw, 12px);
+  z-index: 0;
+  filter: blur(1.5px);
+}
+
+.hs-phase--question .hs-collage__grid--faded {
+  display: none;
+}
+
+/* Overlay content */
+.hs-question__overlay {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(10px, 2vw, 20px);
+}
+
+.hs-question__text {
+  font-family: 'Figtree', sans-serif;
+  font-size: clamp(1.4rem, 3.5vw, 2.8rem);
+  font-weight: 900;
+  color: #0f172a;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.22em;
+  line-height: 1.15;
+}
+
+/* ── Models row ─────────────────────────────────────────────── */
+.hs-models {
+  display: flex;
+  align-items: center;
+  gap: clamp(16px, 3vw, 36px);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.hs-model {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Figtree', sans-serif;
+  font-size: clamp(0.9rem, 1.8vw, 1.3rem);
+  font-weight: 700;
+  color: #0f172a;
+  /* GSAP animates opacity + y */
+}
+
+.hs-model svg { flex-shrink: 0; }
+.hs-model--chatgpt { color: #0f172a; }
+.hs-model--gemini  { color: #4285f4; }
+.hs-model--claude  { color: #cc785c; }
+
+/* ── Question mark ──────────────────────────────────────────── */
+.hs-qmark {
+  font-family: 'Figtree', sans-serif;
+  font-size: clamp(3rem, 8vw, 6rem);
+  font-weight: 900;
+  line-height: 1;
+  background: linear-gradient(135deg, #b71baf, #ff5463);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  /* GSAP animates opacity + scale + y + pulse repeat */
+}
+
+/* ── Responsive ─────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .hs-headline      { font-size: clamp(1.5rem, 7vw, 2.5rem); }
+  .hs-collage__title { font-size: clamp(1.2rem, 6vw, 2rem); }
+  .hs-question__text { font-size: clamp(1.1rem, 5vw, 1.8rem); }
+  .hs-model          { font-size: 0.85rem; }
+}

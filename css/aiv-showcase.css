@@ -1,0 +1,568 @@
+﻿/* ═══════════════════════════════════════════════════════════════
+   AI VISIBILITY SHOWCASE SECTION (Part C of B+C plan)
+   Full-width 3-subsection showcase with live iframe mockups
+═══════════════════════════════════════════════════════════════ */
+
+.aiv-showcase {
+  padding: calc(var(--sec-pad-y) * 0.75) 0;
+  background: var(--clr-bg);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle ambient glow */
+.aiv-showcase::before {
+  content: '';
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 900px;
+  height: 900px;
+  background: radial-gradient(circle,
+    rgba(183,27,175,0.06) 0%,
+    rgba(255,84,99,0.04) 40%,
+    transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.aiv-showcase__header {
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto 56px;
+  position: relative;
+  z-index: 1;
+}
+
+.aiv-showcase__header h2 {
+  margin-bottom: 14px;
+}
+
+.aiv-showcase__header p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.aiv-showcase__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-head);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 5px 14px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--clr-border);
+  color: var(--clr-pink-3);
+  background: rgba(255, 135, 186, 0.06);
+  margin-bottom: 20px;
+}
+
+/* ─── Individual Subsection ─── */
+.aiv-sub {
+  position: relative;
+  z-index: 1;
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 64px 32px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+}
+
+/* Reverse layout: visual on left, text on right (used for variety).
+   Applied via explicit class .aiv-sub--reverse rather than :nth-child,
+   because dividers between .aiv-sub elements offset the nth counter. */
+.aiv-sub--reverse {
+  direction: rtl;
+}
+.aiv-sub--reverse > * {
+  direction: ltr;
+}
+
+.aiv-sub__copy {
+  max-width: 480px;
+}
+
+.aiv-sub__tag {
+  display: inline-block;
+  padding: 4px 12px;
+  font-family: var(--font-head);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--clr-pink-3);
+  background: rgba(255, 135, 186, 0.1);
+  border: 1px solid rgba(255, 135, 186, 0.25);
+  border-radius: var(--radius-full);
+  margin-bottom: 18px;
+}
+
+.aiv-sub__title {
+  font-family: var(--font-head);
+  font-size: clamp(1.5rem, 2.6vw, 2rem);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--clr-text);
+  margin-bottom: 14px;
+}
+
+.aiv-sub__title .text-gradient { font-family: inherit; }
+
+.aiv-sub__desc {
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--clr-muted);
+  margin-bottom: 22px;
+}
+
+.aiv-sub__list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.aiv-sub__list-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.95rem;
+  color: var(--clr-muted);
+  line-height: 1.5;
+}
+
+.aiv-sub__list-check {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(254, 131, 179, 0.15);
+  border: 1px solid var(--clr-pink-3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.aiv-sub__list-check svg {
+  width: 9px;
+  height: 9px;
+  color: var(--clr-pink-3);
+}
+
+.aiv-sub__list-item strong {
+  color: var(--clr-text);
+  font-weight: 700;
+}
+
+/* ─── Iframe Visual Column ─── */
+.aiv-sub__visual {
+  position: relative;
+}
+
+/* Fixed-height "window" frame that shows a scrolling view of the iframe content.
+   - Height is capped; iframe inside is natural content height.
+   - JS computes --scroll-distance = (iframeHeight - wrapHeight) and toggles .scrolling.
+   - Subtle gradient fades hint at more content above/below. */
+.aiv-frame-wrap {
+  position: relative;
+  width: 100%;
+  height: var(--frame-h, 480px);
+  border-radius: 20px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(255, 135, 186, 0.15),
+    0 0 60px rgba(183, 27, 175, 0.1);
+  background: #f8fafc;
+  transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
+  cursor: zoom-in;
+  scroll-behavior: smooth;
+}
+
+.aiv-sub:hover .aiv-frame-wrap {
+  position: relative;
+  width: 100%;
+  height: var(--frame-h, 480px);
+  border-radius: 20px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(255, 135, 186, 0.15),
+    0 0 60px rgba(183, 27, 175, 0.1);
+  background: #f8fafc;
+  transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
+  cursor: zoom-in;
+  scroll-behavior: smooth;
+}
+
+/* Subtle top/bottom fade hinting "there's more content scrolling through" */
+.aiv-frame-wrap::before,
+.aiv-frame-wrap::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 40px;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 0.4s var(--ease);
+}
+.aiv-frame-wrap::before {
+  top: 0;
+  background: linear-gradient(180deg, rgba(248, 250, 252, 0.95) 0%, transparent 100%);
+}
+.aiv-frame-wrap::after {
+  bottom: 0;
+  background: linear-gradient(0deg, rgba(248, 250, 252, 0.95) 0%, transparent 100%);
+}
+.aiv-frame-wrap.scrolling::before,
+.aiv-frame-wrap.scrolling::after {
+  opacity: 1;
+}
+
+.aiv-frame {
+  display: block;
+  width: 100%;
+  height: auto !important;
+  border: 0;
+  background: transparent;
+}
+
+/* Loop scroll animation — slow, ease-in-out with pauses at each end.
+   Keyframes split into 4 phases:
+     0%  - 10%  : pause at top
+     10% - 48%  : scroll down
+     48% - 58%  : pause at bottom
+     58% - 96%  : scroll up
+     96% - 100% : return to top (small buffer) */
+@keyframes aiv-frame-loop {
+  0%, 10%   { transform: translateY(0); }
+  48%, 58%  { transform: translateY(var(--scroll-distance, 0)); }
+  96%, 100% { transform: translateY(0); }
+}
+
+.aiv-frame-wrap.scrolling .aiv-frame {
+  /* animation disabled — using overflow scroll for PNG images */
+  animation: none;
+}
+
+/* Pause on hover so users can read */
+.aiv-frame-wrap:hover .aiv-frame {
+  display: block;
+  width: 100%;
+  height: auto !important;
+  border: 0;
+  background: transparent;
+}
+
+/* Respect reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .aiv-frame-wrap.scrolling .aiv-frame {
+  /* animation disabled — using overflow scroll for PNG images */
+  animation: none;
+}
+}
+
+/* ─── Toggle between Overview / Detail ─── */
+.aiv-toggle {
+  display: inline-flex;
+  gap: 4px;
+  padding: 4px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-full);
+  margin-bottom: 14px;
+}
+
+.aiv-toggle__btn {
+  padding: 6px 16px;
+  font-family: var(--font-head);
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--clr-muted);
+  background: transparent;
+  border-radius: calc(var(--radius-full) - 4px);
+  cursor: pointer;
+  transition: background 0.2s var(--ease), color 0.2s var(--ease);
+}
+
+.aiv-toggle__btn.active {
+  background: var(--grad-cta);
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(183, 27, 175, 0.3);
+}
+
+.aiv-toggle__btn:not(.active):hover {
+  color: var(--clr-text);
+}
+
+/* Iframe stack for toggle — one wrap visible, the other stacked on top */
+.aiv-frame-stack {
+  position: relative;
+}
+
+.aiv-frame-stack .aiv-frame-wrap {
+  position: relative;
+  width: 100%;
+  height: var(--frame-h, 480px);
+  border-radius: 20px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(255, 135, 186, 0.15),
+    0 0 60px rgba(183, 27, 175, 0.1);
+  background: #f8fafc;
+  transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
+  cursor: zoom-in;
+  scroll-behavior: smooth;
+}
+
+.aiv-frame-stack .aiv-frame-wrap:first-child {
+  position: relative;
+}
+
+.aiv-frame-stack .aiv-frame-wrap.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Highlight callout (Rankings: Details/Chart/Sources) */
+.aiv-callout {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  margin-top: 16px;
+  background: rgba(183, 27, 175, 0.06);
+  border: 1px solid rgba(183, 27, 175, 0.2);
+  border-radius: 12px;
+}
+
+.aiv-callout__icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--grad-cta);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: #fff;
+}
+
+.aiv-callout__icon svg { width: 16px; height: 16px; }
+
+.aiv-callout__text {
+  font-size: 0.9rem;
+  color: var(--clr-text);
+  line-height: 1.5;
+}
+
+.aiv-callout__text strong {
+  color: var(--clr-pink-3);
+  font-weight: 700;
+}
+
+.aiv-callout__chips {
+  display: inline-flex;
+  gap: 6px;
+  margin-left: 4px;
+}
+
+.aiv-callout__chip {
+  display: inline-block;
+  padding: 2px 8px;
+  font-family: var(--font-head);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #fff;
+  background: rgba(255, 135, 186, 0.2);
+  border: 1px solid rgba(255, 135, 186, 0.35);
+  border-radius: var(--radius-full);
+}
+
+/* ─── Divider between subsections ─── */
+.aiv-divider {
+  height: 1px;
+  max-width: 1000px;
+  margin: 0 auto;
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(255, 135, 186, 0.2) 50%,
+    transparent);
+  position: relative;
+  z-index: 1;
+}
+
+/* ─── Jump anchor inside AI Visibility tab panel ─── */
+.aiv-jump-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 20px;
+  padding: 10px 18px;
+  font-family: var(--font-head);
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--clr-pink-3);
+  background: rgba(255, 135, 186, 0.08);
+  border: 1px solid rgba(255, 135, 186, 0.25);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all 0.2s var(--ease);
+  text-decoration: none;
+}
+
+.aiv-jump-btn:hover {
+  background: rgba(255, 135, 186, 0.15);
+  border-color: var(--clr-pink-3);
+  transform: translateY(-2px);
+}
+
+.aiv-jump-btn svg {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.3s var(--ease);
+}
+
+.aiv-jump-btn:hover svg {
+  transform: translateY(3px);
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 1024px) {
+  .aiv-sub {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding: 48px 24px;
+  }
+  .aiv-sub--reverse {
+    direction: ltr;
+  }
+  .aiv-sub__visual {
+    order: -1;
+  }
+}
+
+@media (max-width: 640px) {
+  .aiv-showcase {
+    padding: 64px 0;
+  }
+  .aiv-showcase__header {
+    margin-bottom: 32px;
+    padding: 0 20px;
+  }
+  .aiv-sub {
+    padding: 40px 20px;
+    gap: 24px;
+  }
+  .aiv-sub__copy {
+    max-width: 100%;
+  }
+  .aiv-frame-wrap {
+  position: relative;
+  width: 100%;
+  height: var(--frame-h, 480px);
+  border-radius: 20px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(255, 135, 186, 0.15),
+    0 0 60px rgba(183, 27, 175, 0.1);
+  background: #f8fafc;
+  transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
+  cursor: zoom-in;
+  scroll-behavior: smooth;
+}
+}
+
+/* ─── Feature tab iframe sizing ─── */
+/* When the iframe lives inside .tab__panel-visual (AI Visibility / Share of Media tabs),
+   use a slightly shorter frame so there's room for the jump-button below. */
+.tab__panel-visual .aiv-frame-wrap {
+  position: relative;
+  width: 100%;
+  height: var(--frame-h, 480px);
+  border-radius: 20px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(255, 135, 186, 0.15),
+    0 0 60px rgba(183, 27, 175, 0.1);
+  background: #f8fafc;
+  transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
+  cursor: zoom-in;
+  scroll-behavior: smooth;
+}
+
+/* Per-subsection height overrides — tune each to look good with its content.
+   Override --frame-h on the .aiv-frame-wrap inside specific sections if needed. */
+.aiv-showcase .aiv-frame-wrap {
+  position: relative;
+  width: 100%;
+  height: var(--frame-h, 480px);
+  border-radius: 20px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(255, 135, 186, 0.15),
+    0 0 60px rgba(183, 27, 175, 0.1);
+  background: #f8fafc;
+  transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
+  cursor: zoom-in;
+  scroll-behavior: smooth;
+}
+
+@media (max-width: 1024px) {
+  .tab__panel-visual .aiv-frame-wrap,
+  .aiv-showcase .aiv-frame-wrap {
+  position: relative;
+  width: 100%;
+  height: var(--frame-h, 480px);
+  border-radius: 20px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(255, 135, 186, 0.15),
+    0 0 60px rgba(183, 27, 175, 0.1);
+  background: #f8fafc;
+  transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
+  cursor: zoom-in;
+  scroll-behavior: smooth;
+}
+}
+
+@media (max-width: 640px) {
+  .tab__panel-visual .aiv-frame-wrap,
+  .aiv-showcase .aiv-frame-wrap {
+  position: relative;
+  width: 100%;
+  height: var(--frame-h, 480px);
+  border-radius: 20px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(255, 135, 186, 0.15),
+    0 0 60px rgba(183, 27, 175, 0.1);
+  background: #f8fafc;
+  transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
+  cursor: zoom-in;
+  scroll-behavior: smooth;
+}
+}

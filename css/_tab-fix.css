@@ -1,0 +1,38 @@
+
+/* ── Tab panels — fixed height, no layout jump on switch ──── */
+.tabs__panels {
+  position: relative;
+  min-height: 420px;
+}
+
+.tab__panel {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  display: grid !important;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(20px);
+  transition:
+    opacity 0.45s cubic-bezier(0.4,0,0.2,1),
+    transform 0.45s cubic-bezier(0.4,0,0.2,1);
+  will-change: opacity, transform;
+}
+
+.tab__panel.active {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+  .tab__panel {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .tabs__panels {
+    min-height: 600px;
+  }
+}

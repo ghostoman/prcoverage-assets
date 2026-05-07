@@ -1,0 +1,927 @@
+﻿/* ════════════════════════════════════════════════════════════════
+   LIGHT THEME OVERRIDE  —  inspired by Microdrama PDF
+   Loaded LAST so it overrides the dark base. Strategy:
+   1. Override the design tokens (CSS custom properties on :root)
+      so ANY rule using var(--clr-*) automatically inherits the
+      light palette.
+   2. Then make targeted overrides for places where colors are
+      hardcoded (rgba(255,255,255,...), #0a0a1e backgrounds, etc.)
+      or where the dark gradients were used as section accents.
+
+   Palette (from Microdrama PDF):
+   - Cream BG:       #fbf4ed
+   - Cream warm:     #faeee2
+   - Off-white card: #fffaf3
+   - Navy text:      #1a1f3a
+   - Mid text:       #4a5169
+   - Muted text:     #7a8094
+   - Border line:    rgba(26, 31, 58, 0.12)
+   - Pink/red grad:  #b71baf → #ff5070 → #ff87ba (kept from brand)
+   - Soft pink BG:   #fde7e9
+══════════════════════════════════════════════════════════════════ */
+
+/* ─── 1. TOKEN OVERRIDES ─────────────────────────────────────── */
+:root {
+  /* Backgrounds */
+  --clr-bg:               #fbf4ed !important;
+  --clr-bg-dark:          #fbf4ed !important;
+  --clr-cream:            #faeee2 !important;
+  --clr-surface:          #fffaf3 !important;
+  --clr-surface-2:        #fff5e8 !important;
+
+  /* Text */
+  --clr-text:             #1a1f3a !important;
+  --clr-text-dark:        #1a1f3a !important;
+  --clr-text-muted:       #5a6178 !important;
+  --clr-muted:            #5a6178 !important;
+  --clr-muted-dark:       #5a6178 !important;
+  --clr-text-soft:        #7a8094 !important;
+
+  /* Borders */
+  --clr-border:           rgba(26, 31, 58, 0.12) !important;
+  --clr-border-cream:     rgba(26, 31, 58, 0.10) !important;
+  --clr-border-strong:    rgba(26, 31, 58, 0.22) !important;
+
+  /* Pink/red brand stays the same (it works on cream too) */
+  --clr-pink-1:           #b71baf;
+  --clr-pink-2:           #ff5070;
+  --clr-pink-3:           #ff87ba;
+
+  /* Gradients */
+  --grad-cta:             linear-gradient(135deg, #b71baf 0%, #ff5070 100%);
+  --grad-text:            linear-gradient(92deg, #b71baf 0%, #ff5070 55%, #ff87ba 100%);
+
+  /* A serif accent font — used for italic highlights */
+  --font-serif:           'Playfair Display', 'Times New Roman', Georgia, serif;
+}
+
+/* ─── 2. BODY / GLOBAL ──────────────────────────────────────── */
+html, body {
+  background: #fbf4ed !important;
+  color: #1a1f3a !important;
+}
+
+body::before {
+  /* Subtle warm radial accent in top-right, like the Microdrama pages */
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 88% 6%, rgba(255, 135, 186, 0.10) 0%, transparent 42%),
+    radial-gradient(ellipse at 5% 95%, rgba(183, 27, 175, 0.06) 0%, transparent 38%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ─── 3. NAV ────────────────────────────────────────────────── */
+.nav {
+  background: rgba(251, 244, 237, 0.85) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(26, 31, 58, 0.06) !important;
+}
+.nav.scrolled {
+  background: rgba(251, 244, 237, 0.95) !important;
+  box-shadow: 0 2px 24px rgba(26, 31, 58, 0.06) !important;
+}
+
+/* Desktop top-level nav links — bigger, bolder, darker for legibility on cream.
+   The scoped selector (.nav__inner direct child) ensures we ONLY target the
+   desktop header links, not the dropdown items or mobile drawer items. */
+.nav__inner .nav__links > .nav__item > .nav__link,
+.nav__inner .nav__links > .nav__item > .nav__link--btn,
+.nav__inner .nav__links > .nav__link,
+.nav__inner .nav__links > .nav__link--btn {
+  color: #0d1229 !important;
+  font-size: 1.02rem !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.005em !important;
+}
+.nav__inner .nav__links > .nav__item > .nav__link:hover,
+.nav__inner .nav__links > .nav__item > .nav__link--btn:hover,
+.nav__inner .nav__links > .nav__link:hover,
+.nav__inner .nav__links > .nav__link--btn:hover {
+  color: #b71baf !important;
+}
+
+/* Chevron alongside "Features" / "Use Cases" — match the bolder text */
+.nav__inner .nav__links .nav__chevron {
+  color: #0d1229 !important;
+  stroke-width: 2 !important;
+}
+
+/* Fallback for any nav link we didn't catch above */
+.nav__link,
+.nav__link--btn {
+  color: #0d1229 !important;
+}
+.nav__link:hover,
+.nav__link--btn:hover {
+  color: #b71baf !important;
+}
+
+/* Dropdown panels — light surface */
+.nav__dropdown {
+  background: #fffaf3 !important;
+  border: 1px solid rgba(26, 31, 58, 0.10) !important;
+  box-shadow: 0 16px 40px rgba(26, 31, 58, 0.10), 0 4px 12px rgba(26, 31, 58, 0.04) !important;
+}
+.nav__dropdown-item {
+  color: #1a1f3a !important;
+}
+.nav__dropdown-item:hover {
+  background: rgba(255, 80, 112, 0.06) !important;
+}
+.nav__dropdown-title {
+  color: #1a1f3a !important;
+}
+.nav__dropdown-sub {
+  color: #5a6178 !important;
+}
+.nav__dropdown-icon {
+  color: #b71baf !important;
+}
+
+/* Mobile drawer — also light */
+@media (max-width: 1024px) {
+  .nav__links {
+    background: linear-gradient(180deg, #fbf4ed 0%, #faeee2 100%) !important;
+    border-left: 1px solid rgba(26, 31, 58, 0.12) !important;
+    box-shadow: -24px 0 60px rgba(26, 31, 58, 0.18) !important;
+  }
+  .nav__hamburger {
+    border: 1px solid rgba(26, 31, 58, 0.18) !important;
+  }
+  .nav__hamburger span {
+    background: #1a1f3a !important;
+  }
+  .nav__links .nav__link,
+  .nav__links .nav__link--btn,
+  .nav__links .nav__dropdown-title {
+    color: #1a1f3a !important;
+  }
+  .nav__links .nav__dropdown-sub {
+    color: #5a6178 !important;
+  }
+  .nav__links .nav__link:hover,
+  .nav__links .nav__link--btn:hover,
+  .nav__links .nav__dropdown-item:hover {
+    background: rgba(255, 80, 112, 0.08) !important;
+  }
+  .nav--mobile-open::after {
+    background: rgba(26, 31, 58, 0.45) !important;
+  }
+  .nav__links .nav__actions--mobile {
+    border-top: 1px solid rgba(26, 31, 58, 0.12) !important;
+  }
+}
+
+/* ─── 4. BUTTONS ────────────────────────────────────────────── */
+.btn--ghost {
+  background: transparent !important;
+  border: 1.5px solid rgba(26, 31, 58, 0.20) !important;
+  color: #1a1f3a !important;
+}
+.btn--ghost:hover {
+  background: rgba(26, 31, 58, 0.04) !important;
+  border-color: rgba(26, 31, 58, 0.35) !important;
+}
+.btn--outline {
+  background: transparent !important;
+  border: 1.5px solid rgba(26, 31, 58, 0.25) !important;
+  color: #1a1f3a !important;
+}
+.btn--outline:hover {
+  background: rgba(26, 31, 58, 0.05) !important;
+}
+
+/* Primary CTA stays gradient — works perfectly on cream */
+.btn--primary {
+  background: linear-gradient(135deg, #b71baf 0%, #ff5070 100%) !important;
+  color: #fff !important;
+  box-shadow: 0 8px 24px rgba(255, 80, 112, 0.28) !important;
+}
+.btn--primary:hover {
+  box-shadow: 0 12px 32px rgba(255, 80, 112, 0.42) !important;
+  transform: translateY(-1px);
+}
+
+/* ─── 5. HERO ───────────────────────────────────────────────── */
+.hero,
+.hero.section--dark {
+  background: #fbf4ed !important;
+  color: #1a1f3a !important;
+}
+.hero__glow {
+  background: radial-gradient(ellipse at 50% 30%,
+    rgba(255, 135, 186, 0.18) 0%,
+    rgba(183, 27, 175, 0.08) 35%,
+    transparent 70%) !important;
+  opacity: 0.7 !important;
+}
+
+.hero__title {
+  color: #1a1f3a !important;
+}
+/* Highlighted gradient span keeps the pink/red gradient */
+.hero__title .text-gradient,
+.text-gradient {
+  background: linear-gradient(92deg, #b71baf 0%, #ff5070 55%, #ff87ba 100%) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+}
+
+.hero__sub,
+.hero__typewriter {
+  color: #4a5169 !important;
+}
+.hero__typewriter #typewriterTarget {
+  color: #b71baf !important;
+}
+
+/* Top banner (eyebrow above hero headline) — larger and more visible.
+   NEW pill + spinning logo were removed from HTML; now it's just the
+   "✨ The AI era of PR is here. Your moment is now. ✨" line. */
+.hero__eyebrow .badge,
+.badge--ai {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(253, 231, 233, 0.85) 100%) !important;
+  border: 1.5px solid rgba(183, 27, 175, 0.25) !important;
+  color: #0d1229 !important;
+  box-shadow: 0 6px 24px rgba(183, 27, 175, 0.12), 0 2px 8px rgba(26, 31, 58, 0.04) !important;
+  /* Larger, bolder, more presence */
+  font-size: 1rem !important;
+  font-weight: 700 !important;
+  padding: 12px 24px !important;
+  letter-spacing: 0.01em !important;
+  line-height: 1.3 !important;
+  gap: 10px !important;
+  border-radius: 999px !important;
+}
+
+.hero__scroll-label {
+  color: rgba(26, 31, 58, 0.45) !important;
+}
+.hero__scroll-mouse {
+  border-color: rgba(26, 31, 58, 0.35) !important;
+}
+.hero__scroll-wheel {
+  background: rgba(26, 31, 58, 0.55) !important;
+}
+
+/* ─── 6. SECTION DEFAULTS ───────────────────────────────────── */
+section,
+.section,
+.section--dark {
+  background: #fbf4ed !important;
+  color: #1a1f3a !important;
+}
+
+section h1, section h2, section h3, section h4, section h5,
+.section-header h1, .section-header h2, .section-header h3,
+.section-header__title {
+  color: #1a1f3a !important;
+}
+section p, .section-header p, .section-header__sub {
+  color: #5a6178 !important;
+}
+
+/* Section eyebrows (THIS WEEK'S COVERAGE etc.) — pink uppercase like PDF */
+.section-header__eyebrow,
+.section__eyebrow,
+.eyebrow {
+  color: #b71baf !important;
+  letter-spacing: 0.18em !important;
+}
+
+/* ─── 7. FEATURES SECTION (sticky tabs) ─────────────────────── */
+/* The features section needs a transparent / cream background so it
+   blends with the page. The base stylesheet has .section--dark which
+   our :root overrides already neutralize, but we explicitly set here
+   for absolute certainty. */
+.features,
+.features.section--dark,
+section.features,
+section.features.section--dark {
+  background: #fbf4ed !important;
+  color: #1a1f3a !important;
+}
+
+/* features-sticky.js extracts .section-header OUT of .features and inserts
+   it BEFORE .features-wrapper as a standalone block with inline styles:
+     max-width: var(--max-w); margin: 0 auto; background: var(--clr-bg);
+   These inline styles constrain the header to 1200px wide, which makes
+   its background stop short of the viewport edges.
+   Override them here so the header background stretches 100vw and
+   visually continues the .features section full-width styling. */
+.features-wrapper + .section-header,
+.features-wrapper ~ .section-header,
+body > .section-header[style*="max-width"] {
+  max-width: none !important;
+  width: 100vw !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  background: #fbf4ed !important;
+  position: relative;
+}
+
+/* hero__screen--elevated: force visible — opacity:0 set in styles.css */
+.hero__screen--elevated,
+.hero__screen--elevated:has(.hero-story) {
+  opacity: 1 !important;
+  border-radius: clamp(16px, 2vw, 24px) !important;
+  overflow: hidden !important;
+}
+
+/* ai-insights page: reveal elements visible by default */
+body.ai-insights-page .reveal {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* CTA section — always show content regardless of .reveal state.
+   ScrollTrigger sometimes misses the last section on short viewports. */
+.cta-section .reveal,
+.cta-section h2,
+.cta-section .cta-section__lede,
+.cta-section .cta-section__actions {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+/* Re-center the inner H2/P text within the stretched header */
+.features-wrapper + .section-header > *,
+.features-wrapper ~ .section-header > *,
+body > .section-header[style*="max-width"] > * {
+  max-width: var(--max-w, 1200px);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 32px;
+  padding-right: 32px;
+  box-sizing: border-box;
+}
+.features .section-header h2 { color: #1a1f3a !important; }
+.features .section-header p  { color: #5a6178 !important; }
+
+.tab__btn {
+  color: #5a6178 !important;
+  background: #fffaf3 !important;
+  border: 1px solid rgba(26, 31, 58, 0.10) !important;
+}
+.tab__btn:hover {
+  background: #fff !important;
+  color: #1a1f3a !important;
+  border-color: rgba(26, 31, 58, 0.18) !important;
+}
+.tab__btn.active {
+  background: #fff !important;
+  color: #1a1f3a !important;
+  border-color: rgba(183, 27, 175, 0.30) !important;
+  box-shadow: 0 4px 16px rgba(26, 31, 58, 0.08) !important;
+}
+.tab__panel-text h3,
+.tab__panel-text h2 {
+  color: #1a1f3a !important;
+}
+.tab__panel-text p,
+.tab__panel-text li,
+.tab__features-list li,
+.tab__feature-item {
+  color: #5a6178 !important;
+}
+.tab__feature-check {
+  background: rgba(255, 80, 112, 0.10) !important;
+  border: 1px solid rgba(255, 80, 112, 0.30) !important;
+  color: #b71baf !important;
+}
+
+/* ─── 8. AIV SHOWCASE  —  iframe wrapper fades ──────────────── */
+.aiv-showcase {
+  background: #fbf4ed !important;
+}
+.aiv-frame-wrap {
+  background: #fffaf3 !important;
+  border: 1px solid rgba(26, 31, 58, 0.10) !important;
+  box-shadow: 0 12px 40px rgba(26, 31, 58, 0.08) !important;
+}
+.aiv-sub h3,
+.aiv-sub__title {
+  color: #1a1f3a !important;
+}
+.aiv-sub p,
+.aiv-sub__sub {
+  color: #5a6178 !important;
+}
+
+/* The fade gradients on top/bottom of the looping iframe should fade
+   to cream, not navy. On light theme these fades aren't visually needed
+   (iframe content and wrap both sit on cream), so we disable them. */
+.aiv-frame-wrap::before,
+.aiv-frame-wrap::after {
+  display: none !important;
+  background: transparent !important;
+  opacity: 0 !important;
+}
+.aiv-frame-wrap.scrolling::before,
+.aiv-frame-wrap.scrolling::after {
+  opacity: 0 !important;
+}
+
+/* CRITICAL: force iframe to fill the whole wrap.
+   The JS (aiv-showcase.js) tries to measure iframe content height and set it
+   inline (iframe.style.height = contentHeight + 'px'). When the measurement
+   happens too early, it can land on a tiny number (e.g. 150px) and leave the
+   iframe visually stuck as a thin sliver. On light theme we don't need the
+   loop-scroll trick (wrap and iframe are both on cream — no fade magic), so
+   just FORCE the iframe to fill the wrap. Whatever lands inside is shown
+   top-aligned; content that's taller is cropped at the bottom (that's OK —
+   the key highlights for each showcase fit in the first 420-485px). */
+.aiv-frame-wrap .aiv-frame,
+.aiv-frame {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: var(--frame-h, 480px) !important;
+  display: block !important;
+  border: 0 !important;
+  /* Cancel any translateY loop animation from the dark-theme CSS */
+  animation: none !important;
+  transform: none !important;
+}
+.aiv-frame-wrap {
+  /* Make sure wrap actually has the intended height regardless of content */
+  height: var(--frame-h, 480px) !important;
+  overflow: hidden !important;
+}
+
+/* ─── 9. STATS / METRICS ROW ────────────────────────────────── */
+.hero__metric-value,
+.metric__value,
+.stat__value {
+  color: #1a1f3a !important;
+}
+
+/* Big 89% stat section — lift slightly above base cream so it visually
+   separates from the ticker section above and features section below. */
+.stat-section,
+section.stat-section {
+  background: #fff7ee !important;
+}
+.stat-section__text,
+.stat-section__sub {
+  color: #4a5169 !important;
+}
+.stat-section__number {
+  color: #1a1f3a !important;
+}
+
+/* ════════════════════════════════════════════════════════════════
+   FAQ SECTION — larger text for readability
+   Client feedback: "FAQs look small and lost on the screen".
+   Also reduce bottom padding.
+════════════════════════════════════════════════════════════════ */
+.faq,
+section.faq {
+  padding-bottom: 48px !important;
+}
+.faq .section-header h2 {
+  font-size: clamp(2.2rem, 4.2vw, 3.2rem) !important;
+}
+.faq .section-header p {
+  font-size: 1.15rem !important;
+}
+.faq__list {
+  max-width: 820px !important;
+}
+.faq__question {
+  font-size: 1.15rem !important;
+  padding: 22px 26px !important;
+  font-weight: 700 !important;
+}
+.faq__answer-inner {
+  font-size: 1.05rem !important;
+  line-height: 1.75 !important;
+  padding: 0 26px 22px !important;
+  color: #4a5169 !important;
+}
+.faq__chevron {
+  width: 24px !important;
+  height: 24px !important;
+}
+.faq__chevron svg {
+  width: 12px !important;
+  height: 12px !important;
+}
+
+@media (max-width: 640px) {
+  .faq__question { font-size: 1.02rem !important; padding: 18px 20px !important; }
+  .faq__answer-inner { font-size: 0.98rem !important; padding: 0 20px 18px !important; }
+}
+
+/* ════════════════════════════════════════════════════════════════
+   CTA — "Reporting you'll be proud to share"
+   Client feedback: keep headline on one line, enlarge + brighten lede,
+   remove the "no credit card" fine print (already removed from HTML).
+════════════════════════════════════════════════════════════════ */
+/* Widen the wrapper so headline fits on one line on desktop */
+.cta-section .container--narrow {
+  max-width: 960px !important;
+}
+.cta-section h2 {
+  white-space: nowrap;
+  font-size: clamp(2rem, 4vw, 3rem) !important;
+}
+.cta-section .cta-section__lede {
+  font-size: clamp(1.15rem, 1.8vw, 1.4rem) !important;
+  color: #1a1f3a !important;
+  font-weight: 600 !important;
+  opacity: 1 !important;
+  margin-bottom: 32px !important;
+  line-height: 1.5 !important;
+}
+
+/* Mobile: allow headline to wrap so it doesn't overflow on narrow screens */
+@media (max-width: 760px) {
+  .cta-section h2 { white-space: normal; }
+  .cta-section .container--narrow { max-width: 100% !important; }
+}
+
+/* ════════════════════════════════════════════════════════════════
+   FOOTER — brighter, larger links
+   Client feedback: "Increase font size and brightness. The selections
+   are very difficult to see."
+════════════════════════════════════════════════════════════════ */
+.footer__col-title {
+  color: #fff !important;
+  font-size: 0.95rem !important;
+  opacity: 1 !important;
+  letter-spacing: 0.08em !important;
+  margin-bottom: 20px !important;
+}
+.footer__links {
+  gap: 12px !important;
+}
+.footer__link,
+.footer a.footer__link {
+  color: rgba(255, 255, 255, 0.88) !important;
+  font-size: 1rem !important;
+  font-weight: 500 !important;
+}
+.footer__link:hover,
+.footer a.footer__link:hover {
+  color: #ff87ba !important;
+}
+.footer__brand p {
+  color: rgba(255, 255, 255, 0.78) !important;
+  font-size: 0.95rem !important;
+  line-height: 1.6 !important;
+}
+.footer__copy {
+  color: rgba(255, 255, 255, 0.72) !important;
+  font-size: 0.92rem !important;
+}
+.footer__bottom a,
+.footer__bottom .footer__link {
+  color: rgba(255, 255, 255, 0.78) !important;
+  font-size: 0.92rem !important;
+}
+.footer__bottom a:hover {
+  color: #ff87ba !important;
+}
+.hero__metric-label,
+.metric__label,
+.stat__label {
+  color: #5a6178 !important;
+}
+
+/* ─── 10. TESTIMONIALS ──────────────────────────────────────── */
+.testimonials {
+  background: #faeee2 !important;
+}
+.testimonial-card {
+  background: #fffaf3 !important;
+  border: 1px solid rgba(26, 31, 58, 0.10) !important;
+  box-shadow: 0 4px 24px rgba(26, 31, 58, 0.06) !important;
+}
+.testimonial-card:hover {
+  box-shadow: 0 12px 40px rgba(26, 31, 58, 0.10) !important;
+}
+.testimonial-card__text,
+.testimonial-card__name {
+  color: #1a1f3a !important;
+}
+.testimonial-card__role {
+  color: #5a6178 !important;
+}
+
+/* Testimonial bubbles inside threads */
+.testi-thread,
+.testi-bubble {
+  background: #fffaf3 !important;
+  border: 1px solid rgba(26, 31, 58, 0.08) !important;
+  color: #1a1f3a !important;
+}
+
+/* ─── 11. PRICING ───────────────────────────────────────────── */
+.pricing,
+.pricing-section {
+  background: #fbf4ed !important;
+}
+.pricing-card,
+.price-card {
+  background: #fffaf3 !important;
+  border: 1px solid rgba(26, 31, 58, 0.10) !important;
+  box-shadow: 0 4px 24px rgba(26, 31, 58, 0.06) !important;
+  color: #1a1f3a !important;
+}
+.pricing-card:hover,
+.price-card:hover {
+  box-shadow: 0 12px 40px rgba(26, 31, 58, 0.12) !important;
+  transform: translateY(-4px);
+}
+.pricing-card--featured,
+.price-card--featured,
+.pricing-card.featured {
+  background: linear-gradient(180deg, #fffaf3 0%, #fde7e9 100%) !important;
+  border: 1.5px solid rgba(183, 27, 175, 0.30) !important;
+  box-shadow: 0 16px 48px rgba(255, 80, 112, 0.18) !important;
+}
+.pricing-card__name,
+.pricing-card__title,
+.price-card__name {
+  color: #1a1f3a !important;
+}
+.pricing-card__price,
+.price-card__price {
+  color: #1a1f3a !important;
+}
+.pricing-card__period,
+.pricing-card__sub,
+.price-card__period {
+  color: #5a6178 !important;
+}
+.pricing-card__features li,
+.price-card__features li,
+.pricing-features li {
+  color: #4a5169 !important;
+  border-color: rgba(26, 31, 58, 0.06) !important;
+}
+
+/* ─── 12. FAQ ───────────────────────────────────────────────── */
+.faq {
+  background: #fbf4ed !important;
+}
+.faq__item {
+  border: 1px solid rgba(26, 31, 58, 0.10) !important;
+  background: #fffaf3 !important;
+}
+.faq__item.open {
+  border-color: rgba(183, 27, 175, 0.35) !important;
+}
+.faq__question {
+  color: #1a1f3a !important;
+}
+.faq__question:hover {
+  background: rgba(255, 80, 112, 0.04) !important;
+}
+.faq__chevron {
+  border-color: rgba(26, 31, 58, 0.30) !important;
+  color: #5a6178 !important;
+}
+.faq__item.open .faq__chevron {
+  border-color: #b71baf !important;
+  color: #b71baf !important;
+}
+.faq__answer-inner {
+  color: #5a6178 !important;
+}
+
+/* ─── 13. CTA SECTION ───────────────────────────────────────── */
+.cta-section {
+  background: linear-gradient(135deg, #faeee2 0%, #fde7e9 100%) !important;
+}
+.cta-section::before {
+  background: radial-gradient(ellipse at 50% 50%,
+    rgba(255, 135, 186, 0.25) 0%, transparent 60%) !important;
+}
+.cta-section h2,
+.cta-section__title {
+  color: #1a1f3a !important;
+}
+.cta-section p,
+.cta-section__sub {
+  color: #4a5169 !important;
+}
+
+/* ─── 14. FOOTER ────────────────────────────────────────────── */
+.footer,
+footer.footer,
+footer {
+  background: #1a1f3a !important;
+  color: rgba(255, 255, 255, 0.72) !important;
+}
+.footer h3, .footer h4,
+.footer__heading,
+.footer__col-title {
+  color: #fff !important;
+}
+.footer a {
+  color: rgba(255, 255, 255, 0.72) !important;
+}
+.footer a:hover {
+  color: #ff87ba !important;
+}
+.footer__bottom,
+.footer__legal {
+  border-top: 1px solid rgba(255, 255, 255, 0.10) !important;
+  color: rgba(255, 255, 255, 0.50) !important;
+}
+
+/* ─── 15. HERO STORY ANIMATION ──────────────────────────────── */
+/* Already cream-themed — only minor tightening. Remove border-radius so
+   it sits flush in the hero area (per latest client feedback). */
+.hero-story {
+  background: linear-gradient(135deg, #fffaf3 0%, #faeee2 50%, #f9eadd 100%) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+/* Also strip the ambient inner glow so the hero blends seamlessly with
+   the cream page background (no visible "card" edge). */
+.hero-story::before {
+  opacity: 0.7 !important;
+}
+/* Make sure the wrapping hero__screen also has no rounded corners */
+.hero__screen--elevated {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+}
+.hero__screen-glow {
+  display: none !important;
+}
+
+/* ─── 16. SERIF ITALIC ACCENTS  —  Microdrama signature ─────── */
+/* Add a serif italic class for hero/heading accent words. To use,
+   wrap a word in a span with class .serif-accent in HTML, OR rely on
+   the existing .text-gradient + .italic class. */
+.serif-accent,
+.italic-accent,
+.hero__title em,
+.section-header em {
+  font-family: var(--font-serif), 'Playfair Display', Georgia, serif !important;
+  font-style: italic !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.01em;
+}
+
+/* ─── 17. HOMEPAGE MOCKUP IFRAMES (rankings, share, sources) ── */
+/* They render their own internal styling — leave untouched.
+   Just make sure the wrap fade matches cream (already done above). */
+
+/* ─── 17b. MEDIA TICKER  —  outlet logos ticker ──────────── */
+/* "Your Media Wins Shaping AI Answers" section — the outlet logos
+   are a mix of colored <img src="*.svg"> and inline <svg><text fill="currentColor">
+   (Adweek). On light theme we want all logos tinted dark navy for
+   consistency and legibility on cream bg. */
+.ticker,
+.ticker.section--dark {
+  background: transparent !important;
+  color: #1a1f3a !important;
+}
+.ticker__label {
+  color: #5a6178 !important;
+}
+/* Convert colored <img> logos into a flat dark tint.
+   brightness(0) forces every color to black; invert(12%) + sepia + hue
+   shift then nudge black toward navy (#1a1f3a). Opacity 0.72 gives them
+   a lighter, editorial feel like the Microdrama PDF. */
+.ticker__logo-item img {
+  filter:
+    brightness(0)
+    saturate(100%)
+    invert(10%)
+    sepia(20%)
+    hue-rotate(200deg) !important;
+  opacity: 0.72 !important;
+  transition: opacity 0.3s ease !important;
+}
+.ticker__logo-item img:hover {
+  opacity: 1 !important;
+}
+/* Inline SVG logos (Adweek) — text uses currentColor, so setting color
+   on the parent flows through. */
+.ticker__logo-item svg text {
+  fill: #1a1f3a !important;
+  opacity: 0.85;
+}
+.ticker__logo-item {
+  color: #1a1f3a !important;
+}
+
+/* If the ticker has a subtle fading gradient at edges, make it fade
+   to cream instead of navy */
+.ticker__track::before,
+.ticker__track::after,
+.ticker::before,
+.ticker::after {
+  background: linear-gradient(90deg, #fbf4ed 0%, transparent 100%) !important;
+}
+.ticker__track::after,
+.ticker::after {
+  background: linear-gradient(270deg, #fbf4ed 0%, transparent 100%) !important;
+}
+
+/* ─── 18. SCROLL HINT, SECTION DIVIDERS ─────────────────────── */
+.section-divider,
+.divider {
+  background: rgba(26, 31, 58, 0.10) !important;
+}
+
+/* ─── 19. COUNTERS & ANIMATED NUMBERS ───────────────────────── */
+[data-count] {
+  color: #1a1f3a !important;
+}
+.text-gradient[data-count],
+.text-gradient [data-count] {
+  /* gradient text via webkit-clip stays */
+  -webkit-text-fill-color: transparent !important;
+}
+
+/* ─── 20. EVERYTHING-ELSE SAFETY NET ────────────────────────── */
+/* Catch any remaining "white text on dark bg" combos by overriding
+   the most common dark backgrounds from the source. */
+[style*="background: #01011a"],
+[style*="background:#01011a"],
+[style*="background-color: #01011a"],
+[class*="--dark"]:not(.footer):not([class*="hs-art"]):not([class*="aiv-"]):not(.app-mockup):not([class*="rpt-"]) {
+  background: #fbf4ed !important;
+  color: #1a1f3a !important;
+}
+
+/* Generic body-text class overrides */
+.text-muted, .muted-text, .text-soft {
+  color: #5a6178 !important;
+}
+.text-light, .text-white {
+  color: #1a1f3a !important;
+}
+
+/* Card-style elements that commonly use white-on-dark */
+.card,
+.feature-card,
+.use-case-card {
+  background: #fffaf3 !important;
+  border: 1px solid rgba(26, 31, 58, 0.10) !important;
+  color: #1a1f3a !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   SECTION HEADER EMPHASIS — light theme override
+   On cream background the dark-mode near-white text is invisible.
+   Switch to navy and slightly less bold so it stays readable
+   without overpowering the H2 above it.
+═══════════════════════════════════════════════════════════════ */
+.section-header .section-header__sub--emphasis {
+  color: #1a1f3a !important;
+  font-weight: 500 !important;
+  opacity: 0.92;
+}
+
+/* Hero video — replaces hero-story animation */
+.hero__video {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: clamp(12px, 1.5vw, 20px);
+  box-shadow: 0 24px 80px rgba(26, 31, 58, 0.14), 0 8px 24px rgba(26, 31, 58, 0.08);
+  max-width: 100%;
+  object-fit: cover;
+}
+
+/* hero__visual should still sit well without screen-elevated container */
+.hero__visual {
+  position: relative;
+}
+/* Reduced vertical padding — stat section and ticker */
+.stat-section {
+  padding: 48px 0 !important;
+}
+.ticker {
+  padding: 40px 0 !important;
+}
+/* Hero screen elevated — needs explicit height for GSAP animation */
+.hero__screen--elevated {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  background: #fff;
+  overflow: hidden;
+}
+/* Hero screen — always white background, prevents dark flash between animation phases */
+.hero__screen,
+.hero__screen--elevated {
+  background: #ffffff !important;
+}
