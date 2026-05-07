@@ -5892,3 +5892,19 @@ p { color: var(--clr-muted); }
 /* ══ GLOBAL OVERRIDES ══ */
 img, video { max-width: 100% !important; height: auto !important; }
 svg { max-width: 100% !important; max-height: 100% !important; }
+
+/* ══ SPECIFIC ELEMENT OVERRIDES ══ */
+.nav__logo img                { max-width: 160px !important; height: 28px !important; width: auto !important; }
+.footer__brand img            { max-width: 140px !important; height: auto !important; }
+.nav__dropdown-icon svg       { max-width: 16px !important; max-height: 16px !important; }
+.nav__chevron                 { max-width: 12px !important; max-height: 12px !important; }
+.hero__screen img             { max-width: 100% !important; height: auto !important; object-fit: contain !important; }
+.rpt-slide-img                { max-width: 100% !important; height: auto !important; object-fit: cover !important; }
+.aiv-frame img                { max-width: 100% !important; height: auto !important; }
+.ticker img, .ticker svg      { max-width: 120px !important; height: 28px !important; width: auto !important; }
+.logo-img                     { max-width: 100px !important; height: 24px !important; width: auto !important; }
+.ticker__logo                 { max-width: 100px !important; height: auto !important; }
+.page-hero__visual-inner img  { max-width: 100% !important; height: auto !important; }
+.ai-feature__frame img        { max-width: 100% !important; height: auto !important; }
+.stat-section__logo-bg        { max-width: 300px !important; max-height: 300px !important; }
+.cta-ring svg                 { max-width: 320px !important; max-height: 320px !important; }
