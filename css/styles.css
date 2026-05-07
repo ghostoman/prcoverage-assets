@@ -5932,3 +5932,7 @@ p { color: var(--clr-muted); }
 
 /* Global SVG default */
 svg:not([class])        { max-width:100%!important }
+
+/* ══ GLOBAL IMAGE & SVG OVERRIDES ══ */
+img { max-width: 100% !important; height: auto !important; }
+svg { max-width: 100% !important; max-height: 100% !important; }
