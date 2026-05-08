@@ -5913,3 +5913,21 @@ svg { max-width: 100% !important; max-height: 100% !important; }
 .ai-feature__frame img        { max-width: 100% !important; height: auto !important; }
 .stat-section__logo-bg        { max-width: 300px !important; max-height: 300px !important; }
 .cta-ring svg                 { max-width: 320px !important; max-height: 320px !important; }
+
+.cta-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 960px;
+  height: 960px;
+  transform: translate(-50%, -50%) rotate(0deg);
+  opacity: 0.07;
+  animation: cta-ring-spin 22s linear infinite reverse;
+  pointer-events: none;
+  z-index: 0;
+}
+@keyframes cta-ring-spin {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to   { transform: translate(-50%, -50%) rotate(360deg); }
+}
+.cta-ring svg { width: 960px; height: 960px; display: block; }
