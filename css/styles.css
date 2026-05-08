@@ -5895,6 +5895,7 @@ p { color: var(--clr-muted); }
   opacity: 0.5;
 }
 /* ══ GLOBAL OVERRIDES ══ */
+
 img, video { max-width: 100% !important; height: auto !important; }
 svg { max-width: 100% !important; max-height: 100% !important; }
 
